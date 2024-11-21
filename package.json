@@ -5,7 +5,6 @@
   "main": "index.js",
   "repository": "https://github.com/SivaramPg/pdf-qr-code-extractor.git",
   "author": "SivaramPg <sivarampg95@gmail.com>",
-  "type": "module",
   "license": "MIT",
   "private": true,
   "dependencies": {
