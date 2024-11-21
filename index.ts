@@ -14,7 +14,7 @@ function isToBase64Response(response: unknown): response is ToBase64Response {
 
 (async () => {
   try {
-    const pdfFilePath = path.resolve(__dirname, 'boleto_faad1224-f733-48df-8d49-6622a0c15877.pdf');
+    const pdfFilePath = path.resolve(__dirname, 'sample.pdf');
 
     /**
      * https://www.npmjs.com/package/pdf2pic
@@ -59,10 +59,10 @@ function isToBase64Response(response: unknown): response is ToBase64Response {
       const png = PNG.sync.read(buffer);
 
       /**
-       * https://www.npmjs.com/package/jsqr
-       * https://github.com/cozmo/jsQR#readme
-       * Extract the Code from recreated PNG using jsQR
-       */
+     * https://www.npmjs.com/package/jsqr
+     * https://github.com/cozmo/jsQR#readme
+     * Extract the Code from recreated PNG using jsQR
+     */
       const code = jsQR(Uint8ClampedArray.from(png.data), png.width, png.height);
       const qrCodeText = code?.data;
 
