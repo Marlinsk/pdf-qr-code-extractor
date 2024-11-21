@@ -1,16 +1,12 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { fromPath } from 'pdf2pic';
-import { PNG } from 'pngjs';
-import jsQR from 'jsqr';
+const path = require('path');
 
-// Recreating __dirname in the context of ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { fromPath } = require('pdf2pic');
+const { PNG } = require('pngjs');
+const jsQR = require('jsqr');
 
-(async function () {
+(async () => {
   try {
-    const pdfFilePath = path.resolve(__dirname, 'sample.pdf');
+    const pdfFilePath = path.resolve(__dirname, './sample.pdf');
 
     /**
      * https://www.npmjs.com/package/pdf2pic
@@ -37,14 +33,17 @@ const __dirname = path.dirname(__filename);
       height: 2000,
     };
 
+    /**
+     * Initialize PDF to image conversion by supplying a file path
+     */
     const base64Response = await fromPath(pdfFilePath, pdf2picOptions)(
       1, // page number to be converted to image
       true // returns base64 output
     );
-
     const dataUri = base64Response?.base64;
 
-    if (!dataUri) throw new Error('PDF could not be converted to Base64 string');
+    if (!dataUri)
+      throw new Error('PDF could not be converted to Base64 string');
 
     /**
      * https://www.npmjs.com/package/pngjs
@@ -62,9 +61,10 @@ const __dirname = path.dirname(__filename);
     const code = jsQR(Uint8ClampedArray.from(png.data), png.width, png.height);
     const qrCodeText = code?.data;
 
-    if (!qrCodeText) throw new Error('Texto do QR Code não pôde ser extraído da imagem PNG.');
+    if (!qrCodeText)
+      throw new Error('QR Code Text could not be extracted from PNG image');
 
-    console.log('Texto do QR Code:==> ', qrCodeText);
+    console.log('QR Code Text:==> ', qrCodeText);
   } catch (error) {
     console.error(error);
   }
